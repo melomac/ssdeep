@@ -25,10 +25,11 @@ int edit_distn(const char *s1, size_t s1len, const char *s2, size_t s2len) {
   int *t2 = t[1];
   int *t3;
   size_t i1, i2;
-  for (i2 = 0; i2 <= s2len; i2++)
-    t[0][i2] = i2 * EDIT_DISTN_REMOVE_COST;
+  t[0][0] = 0;
+  for (i2 = 0; i2 < s2len; i2++)
+    t[0][i2+1] = t[0][i2] + EDIT_DISTN_REMOVE_COST;
   for (i1 = 0; i1 < s1len; i1++) {
-    t2[0] = (i1 + 1) * EDIT_DISTN_INSERT_COST;
+    t2[0] = t1[0] + EDIT_DISTN_INSERT_COST;
     for (i2 = 0; i2 < s2len; i2++) {
       int cost_a = t1[i2+1] + EDIT_DISTN_INSERT_COST;
       int cost_d = t2[i2] + EDIT_DISTN_REMOVE_COST;
@@ -53,7 +54,7 @@ int edit_distn(const char *s1, size_t s1len, const char *s2, size_t s2len) {
 
 // Convenience method for getting the edit distance of two strings
 int edit_dist(const char *a, const char *b) {
-  unsigned int a_len = 0, b_len = 0;
+  size_t a_len = 0, b_len = 0;
   if (a)
     a_len = strlen(a);
   if (b)

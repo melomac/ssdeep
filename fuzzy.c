@@ -859,7 +859,7 @@ static uint32_t score_strings(const char *s1,
   if (block_size >= (99 + ROLLING_WINDOW) / ROLLING_WINDOW * MIN_BLOCKSIZE)
     return score;
   if (score > block_size/MIN_BLOCKSIZE * minlen)
-    score = block_size/MIN_BLOCKSIZE * minlen;
+    score = (uint32_t)(block_size/MIN_BLOCKSIZE * minlen);
   return score;
 }
 
